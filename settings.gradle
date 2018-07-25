@@ -1,0 +1,16 @@
+def labs = 7
+
+include ((1..labs).collect {
+  "$it".padLeft(2, '0')
+}.collectMany { i ->
+  ["lab-$i", "lab-$i-answer"]
+} as String[])
+
+rootProject.name = 'hands-on-ratpack'
+
+def setBuildFile(project) {
+  project.buildFileName = "${project.name}.gradle"
+  project.children.each this.&setBuildFile
+}
+
+setBuildFile rootProject

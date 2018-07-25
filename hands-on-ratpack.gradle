@@ -1,0 +1,43 @@
+buildscript {
+  repositories {
+    jcenter()
+  }
+
+  dependencies {
+    classpath "io.ratpack:ratpack-gradle:1.5.4"
+    classpath "com.github.jengelman.gradle.plugins:shadow:2.0.3"
+  }
+}
+
+allprojects {
+  apply plugin: "idea"
+  apply plugin: "eclipse"
+}
+
+subprojects {
+  apply plugin: "groovy"
+  apply plugin: "io.ratpack.ratpack-java"
+  apply plugin: "com.github.johnrengelman.shadow"
+
+  repositories {
+    jcenter()
+  }
+
+  dependencies {
+    runtime 'org.slf4j:slf4j-simple:1.7.7'
+
+    testCompile ratpack.dependency("groovy-test")
+    testCompile "org.spockframework:spock-core:1.0-groovy-2.4"
+  }
+
+  def name = (project.name - "-answer").replace('-', '')
+  mainClassName = "${name}.${name.capitalize()}"
+}
+
+idea {
+  project {
+    jdkName "1.8"
+    languageLevel "1.8"
+    vcs = 'Git'
+  }
+}
